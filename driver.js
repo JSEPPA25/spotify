@@ -13,35 +13,7 @@ fs.readFile('data/data.json', 'utf8', (err, input) => {
         return;
     }
 
-
-    // Process the data here
     data = JSON.parse(input)
-
-
-
-    // {
-    //     ts: '2022-08-20T17:12:26Z',
-    //     username: 'bowenarrow04',
-    //     platform: 'iOS15.5(iPhone13,2)',
-    //     ms_played: 108761,
-    //     conn_country: 'US',
-    //     ip_addr_decrypted: '166.170.45.21',
-    //     user_agent_decrypted: 'unknown',
-    //     master_metadata_track_name: 'WhereAreWeGoing',
-    //     master_metadata_album_artist_name: 'BacktoYours',
-    //     master_metadata_album_album_name: 'WhereAreWeGoing',
-    //     spotify_track_uri: 'spotify:track:6lmzEQupt0oVdxEiHyr9vg',
-    //     episode_name: null,
-    //     episode_show_name: null,
-    //     spotify_episode_uri: null,
-    //     reason_start: 'playbtn',
-    //     reason_end: 'trackdone',
-    //     shuffle: false,
-    //     skipped: null,
-    //     offline: false,
-    //     offline_timestamp: 1661015438393,
-    //     incognito_mode: false
-    //   },
 
     data.forEach(element => {
 
@@ -61,8 +33,6 @@ fs.readFile('data/data.json', 'utf8', (err, input) => {
         insert(artist, artistList)
         insert(album, albumList)
 
-
-        // console.log(track + " from " + album + " by " + artist + " [" + id + "]");
 
     });
     console.log("Total plays: " + totalPlays)
@@ -89,8 +59,12 @@ function insertTrack(id, title) {
 }
 
 function seperate(ts) {
-    // 018-05-02T00:57:28Z
-    return ts.split("T")
+    let date = new Date(ts)
+    let year = date.getFullYear()
+    let month = date.getMonth()
+    let day = date.getDate()
+    let time = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split("T")[1].split(".")[0].split(":").slice(0, 2).join(":")
+    return [year, month, day, time]
 }
 
 
