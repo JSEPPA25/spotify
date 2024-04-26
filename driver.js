@@ -1,5 +1,19 @@
 const e = require('express');
 const fs = require('fs');
+var mysql = require('mysql');
+
+
+var con = mysql.createConnection({
+    user: "sonar",
+    password: "vibe",
+    server: "localhost",
+    database: "spotifydata",
+});
+
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
+});
 
 var trackList = {}
 var artistList = {}
@@ -40,6 +54,8 @@ fs.readFile('data/data.json', 'utf8', (err, input) => {
     console.log("Total artists: " + Object.keys(artistList).length)
     console.log("Total albums: " + Object.keys(albumList).length)
 });
+
+
 
 function insert(id, list) {
     if (id in list) {
