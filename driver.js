@@ -37,8 +37,9 @@ fs.readFile('data/data.json', 'utf8', (err, input) => { //Read in the file
         addSong(song)
     });
 
-    insertData()
-    apiCall()
+    dumpData()
+        // insertData()
+
 });
 
 
@@ -78,7 +79,6 @@ function addSong(song) {
     if (!(id in songs)) {
         songs[id] = title
         songs.push({ id: id, title: title, artist: artist, album: album })
-            // history.push({ id: id, timestamp: title, artist: artist, album: album })
     }
 
     history.push({ id: id, timestamp: seperate(song.ts), play_amount: song.ms_played, song_number: totalPlays });
@@ -117,6 +117,10 @@ function insertData() {
     });
 }
 
-function apiCall() {
-
+function dumpData() {
+    let results = songs.map(song => song.id.slice(-22)).join('\n');
+    fs.writeFile('data/songs.txt', results, (err) => {
+        if (err) throw err;
+        console.log('Songs saved to songs.txt');
+    });
 }
